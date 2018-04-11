@@ -10,6 +10,7 @@ class DataTable
 
    private $id		 = '';
    private $style	 = '';
+   private $script = '';
    private $class	 = '';
    private $btnSelect	 = array(
       "show"=>false,
@@ -20,7 +21,7 @@ class DataTable
       "image"=>"",
       "colname"=>"",
       "attrib"=>"",         
-      "onclick"=>"",
+      "onclick"=>"SelectRow();",
       "param"=>0
    );
    private $btnEdit	 = array(
@@ -32,7 +33,7 @@ class DataTable
       "image"=>"",
       "colname"=>"",
       "attrib"=>"",         
-      "onclick"=>"",
+      "onclick"=>"EditRow();",
       "param"=>0   
    );
    private $btnDelete	 = array(
@@ -44,7 +45,7 @@ class DataTable
       "image"=>"",
       "colname"=>"",
       "attrib"=>"",         
-      "onclick"=>"",
+      "onclick"=>"DeleteRow();",
       "param"=>0
    );
    private $header	 = array();
@@ -67,6 +68,11 @@ class DataTable
       $this->style = $style_;
    }
 
+   public function SetScript($script_)
+   {
+      $this->script = $script_;
+   }
+   
    public function SetClass($class_)
    {
       $this->class = $class_;
@@ -87,7 +93,7 @@ class DataTable
       if(!array_key_exists('image', $btnSelect_)) { $btnSelect_['image'] = ""; }
       if(!array_key_exists('colname', $btnSelect_)) { $btnSelect_['colname'] = ""; }
       if(!array_key_exists('attrib', $btnSelect_)) { $btnSelect_['attrib'] = ""; }
-      if(!array_key_exists('onclick', $btnSelect_)) { $btnSelect_['onclick'] = ""; }
+      if(!array_key_exists('onclick', $btnSelect_)) { $btnSelect_['onclick'] = "SelectRow();"; }
       if(!array_key_exists('param', $btnSelect_)) { $btnSelect_['param'] = 0; }
       
       $this->btnSelect = $btnSelect_;
@@ -103,7 +109,7 @@ class DataTable
       if(!array_key_exists('image', $btnEdit_)) { $btnEdit_['image'] = ""; }
       if(!array_key_exists('colname', $btnEdit_)) { $btnEdit_['colname'] = ""; }
       if(!array_key_exists('attrib', $btnEdit_)) { $btnEdit_['attrib'] = ""; }
-      if(!array_key_exists('onclick', $btnEdit_)) { $btnEdit_['onclick'] = ""; }
+      if(!array_key_exists('onclick', $btnEdit_)) { $btnEdit_['onclick'] = "EditRow();"; }
       if(!array_key_exists('param', $btnEdit_)) { $btnEdit_['param'] = 0; }
       
       $this->btnEdit = $btnEdit_;
@@ -119,7 +125,7 @@ class DataTable
       if(!array_key_exists('image', $btnDelete_)) { $btnDelete_['image'] = ""; }
       if(!array_key_exists('colname', $btnDelete_)) { $btnDelete_['colname'] = ""; }
       if(!array_key_exists('attrib', $btnDelete_)) { $btnDelete_['attrib'] = ""; }
-      if(!array_key_exists('onclick', $btnDelete_)) { $btnDelete_['onclick'] = ""; }
+      if(!array_key_exists('onclick', $btnDelete_)) { $btnDelete_['onclick'] = "DeleteRow();"; }
       if(!array_key_exists('param', $btnDelete_)) { $btnDelete_['param'] = 0; }
       
       $this->btnDelete = $btnDelete_;
@@ -134,24 +140,25 @@ class DataTable
    {
       if ($this->datasource !== null)
       {	 
-	 $styles = '<style type="text/css">' . $this->style . '</style>';
-	 $Table = '<table id="' . $this->id . '" class="' . $this->class . '">';
-	 $HeadTable = $this->CreateHead();
-	 $BodyTable = $this->CreatBody();
-	 $EndTable = '</table>';
+         $styles = '<style type="text/css">' . $this->style . '</style>';
+         $script = '<script>'. $this->script . '</script>';
+         $Table = '<table id="' . $this->id . '" class="' . $this->class . '">';
+         $HeadTable = $this->CreateHead();
+         $BodyTable = $this->CreatBody();
+         $EndTable = '</table>';
 	 
-	 return $styles . '<br>' . $Table . $HeadTable . $BodyTable . $EndTable;
-      }
-      else
-      {
-	 $styles	 = '<style type="text/css">' . $this->style . '</style>';
-	 $Table		 = '<table id="' . $this->id . '" class="' . $this->class . '">';
-	 $HeadTable	 = '<thead><tr><td>Messege</td></tr></thead>';
-	 $BodyTable	 = '<tbody>';	 
-	 $BodyTable	.= '<tr><td>.: Connection or DataBase error :.</td></tr>';
-	 $BodyTable	.= '</tbody>';
-	 $EndTable	 = '</table>';
-	 return $styles . '<br>' . $Table . $HeadTable . $BodyTable . $EndTable;
+         return $styles . '<br>' . $Table . $HeadTable . $BodyTable . $EndTable . '<br>' . $script;
+           }
+           else
+           {
+         $styles	 = '<style type="text/css">' . $this->style . '</style>';
+         $Table		 = '<table id="' . $this->id . '" class="' . $this->class . '">';
+         $HeadTable	 = '<thead><tr><td>Messege</td></tr></thead>';
+         $BodyTable	 = '<tbody>';	 
+         $BodyTable	.= '<tr><td>.: Connection or DataBase error :.</td></tr>';
+         $BodyTable	.= '</tbody>';
+         $EndTable	 = '</table>';
+         return $styles . '<br>' . $Table . $HeadTable . $BodyTable . $EndTable . '<br>' . $script;
       }
    }
 
@@ -172,9 +179,9 @@ class DataTable
       {
 	 $HeadTable .= '<th>' . $this->header[$i] . '</th>';
       }
-      $HeadTable	 .= ($this->btnSelect['show'] === true) ? '<th>' . $this->btnSelect['colname'] . '</th>' : '';
-      $HeadTable	 .= ($this->btnEdit['show'] === true) ? '<th>' . $this->btnEdit['colname'] . '</th>' : '';
-      $HeadTable	 .= ($this->btnDelete['show'] === true) ? '<th>' . $this->btnDelete['colname'] . '</th>' : '';
+      $HeadTable	 .= $this->btnSelect['show'] === true ? '<th>' . $this->btnSelect['colname'] . '</th>' : '';
+      $HeadTable	 .= $this->btnEdit['show'] === true ? '<th>' . $this->btnEdit['colname'] . '</th>' : '';
+      $HeadTable	 .= $this->btnDelete['show'] === true ? '<th>' . $this->btnDelete['colname'] . '</th>' : '';
       $HeadTable	 .= '
                 </tr>
             </thead>';
@@ -197,9 +204,9 @@ class DataTable
 	       
 	       $BodyTable	 .= '<td>' . $value . '</td>';
 	    }
-	    $BodyTable	 .= ($this->btnSelect['show'] === true) ? '<td>' . $this->ButtonSelect($ids) . '</td>' : '';
-	    $BodyTable	 .= ($this->btnEdit['show'] === true) ? '<td>' . $this->ButtonEdit($ide) . '</td>' : '';
-	    $BodyTable	 .= ($this->btnDelete['show'] === true) ? '<td>' . $this->ButtonDelete($idd) . '</td>' : '';
+	    $BodyTable	 .= $this->btnSelect['show'] === true ? '<td>' . $this->ButtonSelect($ids) . '</td>' : '';
+	    $BodyTable	 .= $this->btnEdit['show'] === true ? '<td>' . $this->ButtonEdit($ide) . '</td>' : '';
+	    $BodyTable	 .= $this->btnDelete['show'] === true ? '<td>' . $this->ButtonDelete($idd) . '</td>' : '';
 	    $BodyTable	 .= '</tr>';
 	 }
 
@@ -216,11 +223,11 @@ class DataTable
       $attrib	 = $this->btnSelect['attrib'];
       $style	 = $this->btnSelect['style'];
       $type	 = $this->btnSelect['type'];
-      $onclick	 = '' . $this->btnSelect['onclick'];
+      $onclick	 = $this->btnSelect['onclick'];
       $onclick = str_replace("()", "($IdRow)", $onclick);
       
       $btnSelect = <<<EOF
-<button type="$type" class="$class" style="$style" $attrib $onclick>
+<button type="$type" class="$class" style="$style" $attrib onclick="$onclick">
 <img src="$image">&nbsp;$name
 </button>
 EOF;
@@ -240,7 +247,7 @@ EOF;
       $onclick = str_replace("()", "($IdRow)", $onclick);	      
 
       $btnEdit = <<<EOF
-<button type="$type" class="$class" style="$style" $attrib $onclick>
+<button type="$type" class="$class" style="$style" $attrib onclick="$onclick">
 <img src="$image">&nbsp;$name
 </button>
 EOF;
@@ -260,7 +267,7 @@ EOF;
       $onclick = str_replace("()", "($IdRow)", $onclick);	            
       
       $btnDelete = <<<EOF
-<button type="$type" class="$class" style="$style" $attrib $onclick>
+<button type="$type" class="$class" style="$style" $attrib onclick="$onclick">
 <img src="$image">&nbsp;$name
 </button>
 EOF;
