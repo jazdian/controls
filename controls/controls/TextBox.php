@@ -200,7 +200,7 @@ class TextBox
       }      
    }      
    
-   public function TextBox()
+   public function CreateTextBox()
    {     
       $stringjavascript = $this->StringFunctionsJavaScript();
       $stringhtml5 = $this->StringAttrHtml5();

@@ -94,7 +94,7 @@ class Form
       }
    }
    
-   public function form()
+   public function CreateForm()
    {
       $numargs = func_num_args();
       $nomargs = func_get_args();

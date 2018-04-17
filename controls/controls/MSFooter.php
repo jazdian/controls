@@ -31,7 +31,7 @@ class MSFooter
         return $this;
     }
 
-    public function Footer()
+    public function CreateMSFooter()
     {
         return $this->stringFooter;
     }

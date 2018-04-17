@@ -16,7 +16,7 @@ class BSCard
       $this->datasource = $datasource_;
    }   
 
-   public function bsCard()
+   public function CreateBSCard()
    {
       $strCard = '';
       

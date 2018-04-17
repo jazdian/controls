@@ -91,7 +91,7 @@ class ListBox
         $this->disabled = $disabled_;
     }    
     
-    public function ListBox()
+    public function CreateListBox()
     {
         $disabled = '';
         if($this->disabled === true) { $disabled = 'disabled'; }

@@ -38,7 +38,7 @@ class Login
       $this->pathLogo = $pathLogo_;
    }
 
-   public function Login()
+   public function CreateLogin()
    {
       if($this->styleLogin === 'Materialize')
       {

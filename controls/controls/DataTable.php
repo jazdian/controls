@@ -136,7 +136,7 @@ class DataTable
       $this->datasource = $datasource_;
    }
 
-   public function CreateDT()
+   public function CreateDataTable()
    {
       if ($this->datasource !== null)
       {	 

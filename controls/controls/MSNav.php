@@ -31,7 +31,7 @@ class MSNav
         return $this;
     }
 
-    public function NavBar()
+    public function CreateMSNav()
     {
     	return $this->stringNavBar;
     }

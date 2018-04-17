@@ -131,7 +131,7 @@
          }
       }
 
-      public function ComboBox()
+      public function CreateComboBox()
       {
          $disabled = '';
          if ($this->disabled === true)

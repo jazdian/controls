@@ -19,7 +19,7 @@ class WrapControl
       }
    } 
       
-   public function WrapControl($search, $replace)
+   public function CreateWrapControl($search, $replace)
    {
       if ($html_ !== '')
       {

@@ -91,7 +91,7 @@ class Button
       }
    }
    
-   public function Button()
+   public function CreateButton()
    {
       $strbtn = <<<EOF
 <button $this->type$this->id$this->name$this->class$this->style$this->attrib$this->onclick >
